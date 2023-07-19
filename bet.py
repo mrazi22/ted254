@@ -125,6 +125,7 @@ def main():
     print_slot_machine(slots)  # Print the slot machine spin
 
     def main():
+    
      balance = deposit()
     play_game = input("Press 'q' to start the game or 'x' to exit: ")
     
@@ -132,98 +133,44 @@ def main():
         return
     
     while True:
-        balance += deposit()
         lines = get_number_of_lines()
+        bet = get_bet()
+        total_bet = bet * lines
         
-        while True:
-            bet = get_bet()
-            total_bet = bet * lines
-
-            if total_bet > balance:
-                print(f"You do not have enough money to bet that amount. Your current balance is: ${balance}")
-                break
-            
-            print(f"You are betting ${bet} on {lines} line(s). Total bet is equal to ${total_bet}.")
-            slots = get_slot_machine_spin(rows, cols, symbol_count)
-            print_slot_machine(slots)
-    
-            winnings, winning_lines = check_winnings(slots, lines, bet, symbol_value)
-            if winning_lines:
-                print("Congratulations! You won on line(s):", ", ".join(str(line) for line in winning_lines))
-                print(f"YOU WON ${winnings}")
-            else:
-                print("Better luck next time!")
-                print(f"You lost ${total_bet}")
-            
-            balance -= total_bet
-            print(f"Your current balance is: ${balance}")
-            
-            if balance == 0:
-                print("You ran out of balance.")
-                break
-            
-            play_again = input("Press 'x' to exit the game or any other key to play again: ")
-            if play_again.lower() == "x":
-                return
-    
-        if balance == 0:
+        if total_bet > balance:
+            print(f"You do not have enough money to bet that amount. Your current balance is: ${balance}")
             break
-    
-    print(f"Thank you for playing! You are left with ${balance}")
-
-    def game():
-       
-     balance = deposit()
-    play_game = input("Press 'q' to start the game or 'x' to exit: ")
-
-    if play_game.lower() != "q":
-        return
-
-    while balance > 0:
-        total_winnings = 0
-        lines = get_number_of_lines()
-
-        while True:
-            bet = get_bet()
-            total_bet = bet * lines
-
-            if total_bet > balance:
-                print(f"You do not have enough money to bet that amount. Your current balance is: ${balance}")
-                break
-
-            print(f"You are betting ${bet} on {lines} line(s). Total bet is equal to ${total_bet}.")
-            slots = get_slot_machine_spin(rows, cols, symbol_count)
-            print_slot_machine(slots)
-
-            winnings, winning_lines = check_winnings(slots, lines, bet, symbol_value)
-            total_winnings = winnings - total_bet
             
-            if winning_lines:
-                print("Congratulations! You won on line(s):", ", ".join(str(line) for line in winning_lines))
-                print(f"YOU WON ${winnings}")
-                total_winnings += total_bet  # Add the total bet amount back to the winnings
-
-            else:
-                print("Better luck next time!")
-                print(f"You lost ${total_bet}")
-
-            balance += total_winnings
-            print(f"Your current balance is: ${balance}")
-
-            if balance == 0:
-                print("You ran out of balance.")
-                break
-
-            play_again = input("Press 'x' to exit the game or any other key to play again: ")
-            if play_again.lower() == "x":
-                return
-
+        print(f"You are betting ${bet} on {lines} line(s). Total bet is equal to ${total_bet}.")
+        slots = get_slot_machine_spin(rows, cols, symbol_count)
+        print_slot_machine(slots)
+    
+        winnings, winning_lines = check_winnings(slots, lines, bet, symbol_value)
+        if winning_lines:
+            print("Congratulations! You won on line(s):", ", ".join(str(line) for line in winning_lines))
+            print(f"YOU WON ${winnings}")
+            balance += winnings - total_bet
+        else:
+            print("Better luck next time!")
+            print(f"You lost ${total_bet}")
+            balance -= total_bet
+            
+        print(f"Your current balance is: ${balance}")
+            
         if balance == 0:
+            print("You ran out of balance.")
+            break
+            
+        play_again = input("Press 'x' to exit the game or any other key to play again: ")
+        if play_again.lower() == "x":
             break
 
     print(f"Thank you for playing! You are left with ${balance}")
 
 main()
+
+
+  
 
 
 
